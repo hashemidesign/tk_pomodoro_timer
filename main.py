@@ -28,12 +28,18 @@ class Timer(ttk.Frame):
 
         self.current_time = tk.StringVar(value="00:10")
         self.timer_running = True
+        # Timer Description
+        self.current_timer_label = tk.StringVar(value=self.timer_schedule[0])
+        timer_description = ttk.Label(self, textvariable=self.current_timer_label)
+        timer_description.grid(row=0, column=0, sticky="W", padx=(10, 0), pady=(10, 0))
 
         timer_frame = ttk.Frame(self, height="100")
-        timer_frame.grid(row=0, column=0, pady=(10, 0), sticky="NESW")
+        timer_frame.grid( pady=(10, 0), sticky="NESW")
 
         timer_counter = ttk.Label(timer_frame, textvariable=self.current_time)
-        timer_counter.grid(row=0, column=0)
+        timer_counter.place(relx=0.5, rely=0.5, anchor="center")
+
+
 
         self.decrement_timer()
 
@@ -54,8 +60,9 @@ class Timer(ttk.Frame):
         elif self.timer_running and current_time == "00:00":
             self.timer_schedule.rotate(-1)
             next_up = self.timer_schedule[0]
+            self.current_timer_label.set(next_up)
 
-            if next_up == "Pomodor":
+            if next_up == "Pomodoro":
                 self.current_time.set("25:00")
             elif next_up == "Short Break":
                 self.current_time.set("05:00")
