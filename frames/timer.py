@@ -4,7 +4,7 @@ from collections import deque
 
 
 class Timer(ttk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent, controller, show_settings):
         super().__init__(parent)
         self.controller = controller
 
@@ -18,15 +18,18 @@ class Timer(ttk.Frame):
         # track current timer
         self._timer_decrement_job = None
 
+        settings_button = ttk.Button(self, text="Settings", command=show_settings, cursor="hand2")
+        settings_button.grid(row=0, column=1, sticky="E", padx=10, pady=(10, 0))
+
         timer_frame = ttk.Frame(self, height="100")
-        timer_frame.grid(row=1, pady=(10, 0), sticky="NESW")
+        timer_frame.grid(row=1, pady=(10, 0), sticky="NESW", columnspan=2)
 
         timer_counter = ttk.Label(timer_frame, textvariable=self.current_time)
         timer_counter.place(relx=0.5, rely=0.5, anchor="center")
 
         # Setting up start/stop buttons
         button_container = ttk.Frame(self, padding=10)
-        button_container.grid(row=2, column=0, sticky="EW")
+        button_container.grid(row=2, column=0, sticky="EW", columnspan=2)
         button_container.columnconfigure((0, 1, 2), weight=1)
 
         self.start_button = ttk.Button(button_container,
