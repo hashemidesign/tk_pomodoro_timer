@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from collections import deque
 
 
 class PomodoroTimer(tk.Tk):
@@ -21,6 +22,9 @@ class PomodoroTimer(tk.Tk):
 class Timer(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
+
+        self.timer_order = ["Pomodoro", "Short Break", "Pomodoro", "Short Break", "Pomodoro", "Long Break"]
+        self.timer_schedule = deque(self.timer_order)
 
         self.current_time = tk.StringVar(value="00:10")
         self.timer_running = True
@@ -47,7 +51,18 @@ class Timer(ttk.Frame):
 
             self.current_time.set(f"{minutes:02d}:{seconds:02d}")
             self.after(1000, self.decrement_timer)  # run decrement after 1 second
+        elif self.timer_running and current_time == "00:00":
+            self.timer_schedule.rotate(-1)
+            next_up = self.timer_schedule[0]
 
+            if next_up == "Pomodor":
+                self.current_time.set("25:00")
+            elif next_up == "Short Break":
+                self.current_time.set("05:00")
+            elif next_up == "Long Break":
+                self.current_time.set("15:00")
+            # go fo next round in the deque
+            self.after(1000, self.decrement_timer)
 
 
 if __name__ == "__main__":
