@@ -1,6 +1,29 @@
-/venv
-/env
-.idea/
-.pycache/
-.vscode/
+.DS_Store
 .env
+*.pyc
+*.pyo
+env/
+venv/
+.venv/
+env*
+dist/
+build/
+*.egg
+*.egg-info/
+.tox/
+.cache/
+.pytest_cache/
+.idea/
+docs/_build/
+.vscode
+__pycache__/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+*,cover
+
+# sqlite db
+*.sqlite3
+*.db

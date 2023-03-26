@@ -1,10 +1,11 @@
 import tkinter as tk
-from tkinter import ttk
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 from collections import deque
 from frames import Timer, Settings
 
 
-class PomodoroTimer(tk.Tk):
+class PomodoroTimer(ttk.Window):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -19,7 +20,7 @@ class PomodoroTimer(tk.Tk):
         self.timer_order = ["Pomodoro", "Short Break", "Pomodoro", "Short Break", "Pomodoro", "Long Break"]
         self.timer_schedule = deque(self.timer_order)
 
-        container = ttk.Frame(self)
+        container = ttk.Frame(self, bootstyle="info")
         container.grid()
         container.columnconfigure(0, weight=1)
 
@@ -41,4 +42,5 @@ class PomodoroTimer(tk.Tk):
 
 if __name__ == "__main__":
     app = PomodoroTimer()
+    app.style.theme_use("solar")
     app.mainloop()
