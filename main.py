@@ -1,16 +1,55 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import tkinter as tk
+from tkinter import ttk
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+class PomodoroTimer(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.title("Pomodoro Timer")
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+
+        container = ttk.Frame(self)
+        container.grid()
+        container.columnconfigure(0, weight=1)
+
+        timer_frame = Timer(container)
+        timer_frame.grid(row=0, column=0, sticky="NESW")
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class Timer(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+        self.current_time = tk.StringVar(value="00:10")
+        self.timer_running = True
+
+        timer_frame = ttk.Frame(self, height="100")
+        timer_frame.grid(row=0, column=0, pady=(10, 0), sticky="NESW")
+
+        timer_counter = ttk.Label(timer_frame, textvariable=self.current_time)
+        timer_counter.grid(row=0, column=0)
+
+        self.decrement_timer()
+
+    def decrement_timer(self):
+        current_time = self.current_time.get()
+        if self.timer_running and current_time != "00:00":
+            minutes, seconds = current_time.split(":")
+
+            if int(seconds) > 0:
+                seconds = int(seconds) - 1
+                minutes = int(minutes)
+            else:
+                seconds = 59
+                minutes = int(minutes) - 1
+
+            self.current_time.set(f"{minutes:02d}:{seconds:02d}")
+            self.after(1000, self.decrement_timer)  # run decrement after 1 second
+
+
+
+if __name__ == "__main__":
+    app = PomodoroTimer()
+    app.mainloop()
